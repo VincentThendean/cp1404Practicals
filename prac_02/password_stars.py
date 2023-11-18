@@ -1,8 +1,16 @@
-print("Password must be 10 characters or longer")
-passwordHidden = input("Input Password: ")
+def main():
+    print("Password must be 10 characters or longer")
+    passwordHidden = get_password()
+    password_to_stars(passwordHidden)
 
-while len(passwordHidden)<10:
-    print("Password must be 10 characters or longe r")
+def password_to_stars(passwordHidden):
+    while len(passwordHidden) < 10:
+        print("Password must be 10 characters or longer")
+        passwordHidden = get_password()
+    print('*' * len(passwordHidden))
+
+def get_password():
     passwordHidden = input("Input Password: ")
+    return passwordHidden
 
-print('*'*len(passwordHidden) )
+main()
