@@ -7,25 +7,25 @@ def main():
 (Q)uit
 """
     print(MENU)
-    menuChoice = input('>')
-    while menuChoice != "Q":
-        if menuChoice == "G":
-            userScore = set_userScore()
-            while userScore < 0 or userScore >100:
+    menu_choice = input('>')
+    while menu_choice != "Q":
+        if menu_choice == "G":
+            user_score = set_userScore()
+            while user_score < 0 or user_score >100:
                 print('invalid')
-                userScore = set_userScore()
+                user_score = set_userScore()
 
-        elif menuChoice == "P":
-            get_userScore(userScore)
+        elif menu_choice == "P":
+            get_userScore(user_score)
 
-        elif menuChoice == "S":
-            get_userScore_stars(userScore)
+        elif menu_choice == "S":
+            get_userScore_stars(user_score)
 
         else:
             print("Invalid command. Try again.")
 
         print(MENU)
-        menuChoice = input('>')
+        menu_choice = input('>')
 
 
 def get_userScore_stars(userScore):
@@ -35,8 +35,8 @@ def get_userScore(userScore):
     print(userScore)
 
 def set_userScore():
-    enteredscore = int(input('Input valid score (0-100):'))
-    return enteredscore
+    user_score = int(input('Input valid score (0-100):'))
+    return user_score
 
 
 

@@ -6,18 +6,18 @@ from random import randint
 
 
 def main():
-    score = float(input("Enter score: "))
-    print(judge_score(score))
+    user_score = float(input("Enter score: "))
+    print(judge_score(user_score))
     print(judge_score(randint(0,100)))
 
-def judge_score(score):
-    if score > 100 or score < 0:
+def judge_score(user_score):
+    if user_score > 100 or user_score < 0:
         return "Invalid Score"
-    elif score <= 50:
+    elif user_score <= 50:
         return "Bad"
-    elif score <= 90:
+    elif user_score <= 90:
         return "Passable"
-    elif score <= 100:
+    elif user_score <= 100:
         return "Excellent"
 
 
