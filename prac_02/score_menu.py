@@ -1,5 +1,6 @@
 def main():
 
+    score_range = [0,100]
     MENU = """
 (G)et a valid score (must be 0-100)
 (P)rint result
@@ -8,10 +9,11 @@ def main():
 """
     print(MENU)
     menu_choice = input('>')
+
     while menu_choice != "Q":
         if menu_choice == "G":
             user_score = set_userScore()
-            while user_score < 0 or user_score >100:
+            while user_score < score_range[0] or user_score >score_range[1]:
                 print('invalid')
                 user_score = set_userScore()
 
