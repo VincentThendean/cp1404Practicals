@@ -9,6 +9,9 @@ Answer the following questions:
 try:
     numerator = int(input("Enter the numerator: "))
     denominator = int(input("Enter the denominator: "))
+    while denominator == 0:
+        print("Denominator cannot be zero!")
+        denominator = int(input("Enter the denominator: "))
     fraction = numerator / denominator
     print(fraction)
 except ValueError:
@@ -19,5 +22,6 @@ print("Finished.")
 
 """
 1) ValueError occurs when any of the input is not an integer.
-2)  ZeroDivisionError occurs when denominator is 0
+2) ZeroDivisionError occurs when denominator is 0
+3) Yes. Use LBYL method and retry input immediately if denominator is 0
 """
