@@ -4,16 +4,20 @@ Data file -> lists program
 """
 
 FILENAME = "subject_data.txt"
+nested_counter = 3
 
 
 def main():
     data = get_data()
-    print(data)
+    for i in range(len(data)):
+        print(f"{data[i][0]} is taught by {data[i][1]:12} and has {data[i][2]:3} students")
 
 
 def get_data():
     """Read data from file formatted like: subject,lecturer,number of students."""
     input_file = open(FILENAME)
+    data_list = []
+
     for line in input_file:
         print(line)  # See what a line looks like
         print(repr(line))  # See what a line really looks like
@@ -23,7 +27,10 @@ def get_data():
         parts[2] = int(parts[2])  # Make the number an integer (ignore PyCharm's warning)
         print(parts)  # See if that worked
         print("----------")
+        data_list.append(parts)
     input_file.close()
+
+    return data_list
 
 
 main()
