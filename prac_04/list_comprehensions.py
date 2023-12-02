@@ -54,4 +54,5 @@ for name in full_names:
     if len(name)>11:
         longer_than_eleven.append(name.split()[1])
 
-print(longer_than_eleven)
+last_name_string = " ".join(longer_than_eleven)
+print(last_name_string)
