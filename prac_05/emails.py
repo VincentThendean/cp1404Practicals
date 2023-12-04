@@ -2,8 +2,8 @@
 Emails
 Estimate: 35 minutes
 Start:    15:07
-Actual:   xx minutes
-End:      x
+Actual:   35 minutes
+End:      15:42
 """
 
 
