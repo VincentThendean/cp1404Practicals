@@ -19,9 +19,13 @@ class Guitar:
     def __str__(self):
         return f"{self.name} ({self.year}) : ${self.cost}"
 
+    # sort Guitar class based on Year
+    def __lt__(self, other):
+        return self.year < other.year
+
     def get_age(self):
         today = datetime.date.today()
-        year = today.year-1
+        year = today.year - 1
 
         return year - self.year
 
@@ -30,5 +34,3 @@ class Guitar:
             return True
         else:
             return False
-
-
