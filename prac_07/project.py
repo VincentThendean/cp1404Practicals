@@ -25,6 +25,30 @@ class Project:
     def is_complete(self):
         return self.completion == 100
 
+    def set_priority(self):
+        user_priority = input("New priority: ")
+        try:
+            user_priority = int(user_priority)
+        except ValueError:
+            user_priority = -1
+
+        if 0 <= user_priority:
+            self.priority = user_priority
+        else:
+            pass
+
+    def set_completion(self):
+        user_completion = input("New percentage: ")
+        try:
+            user_completion = int(user_completion)
+        except ValueError:
+            user_completion = -1
+
+        if 0 <= user_completion <= 100:
+            self.completion = user_completion
+        else:
+            pass
+
 
 def import_date(start_date):
     date_entry = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()

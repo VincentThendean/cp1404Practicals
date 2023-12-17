@@ -2,7 +2,6 @@ from project import Project
 
 import datetime
 
-# PROJECT_NAME = ""
 
 def main():
     project_list = []
@@ -44,25 +43,33 @@ def main():
 
 
 def load_project(project_list):
+    # project_name = str(input("Enter filename to load: "))
+    project_name = "project.txt"
 
-    project_name = str(input("Enter filename to load: "))
+    get_project_file(project_list, project_name)
 
-    with open(project_name, 'r') as in_file:
-        in_file.readline()
-        for line in in_file:
-            project_format = line.strip().split('\t')
-            project_entry = Project(project_format[0], project_format[1], project_format[2], project_format[3],
-                                    project_format[4])
 
-            project_list.append(project_entry)
+def get_project_file(project_list, project_name):
+    try:
+        with open(project_name, 'r') as in_file:
+            in_file.readline()
+            for line in in_file:
+                project_format = line.strip().split('\t')
+                project_entry = Project(project_format[0], project_format[1], project_format[2], project_format[3],
+                                        project_format[4])
 
-    # print(project_list[1])
+                project_list.append(project_entry)
+    except FileNotFoundError:
+        print("File does not exist.")
 
 
 def save_project(project_list):
-
     project_name = str(input("Enter filename to save as: "))
 
+    set_project_file(project_list, project_name)
+
+
+def set_project_file(project_list, project_name):
     with open(project_name, 'w') as out_file:
         header = f"Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage"
         print("success")
@@ -79,44 +86,101 @@ def display_project(project_list):
     completed_projects = []
 
     sorted_project = sorted(project_list, key=lambda project: project.priority)
-    print("Incomplete projects:")
-    for i in range(len(sorted_project)):
-        # print(f"{project_list[i].completion == 100}")
-        # print(project_list[i].is_complete())
-        if sorted_project[i].is_complete():
-            completed_projects.append(sorted_project[i])
-            # print("test2")
-        else:
-            print(f"  {str(sorted_project[i])}")
-            # print("test1")
 
+    get_incomplete_projects(completed_projects, sorted_project)
+
+    get_complete_projects(completed_projects)
+
+
+def get_complete_projects(completed_projects):
     print("Complete projects:")
     for i in range(len(completed_projects)):
         print(f"  {completed_projects[i]}")
 
 
-def filter_project(project_list):
-    user_date = input("Show projects that start after date (dd/mm/yyyy): ")
-    # user_date = "20/7/2022"
-
-    earliest_date = datetime.datetime.strptime(user_date, "%d/%m/%Y").date()
-    sorted_project = sorted(project_list, key=lambda project: project.start_date)
+def get_incomplete_projects(completed_projects, sorted_project):
+    print("Incomplete projects:")
     for i in range(len(sorted_project)):
-        if sorted_project[i].start_date <= earliest_date:
-            continue
-        print(sorted_project[i])
+        if sorted_project[i].is_complete():
+            completed_projects.append(sorted_project[i])
+        else:
+            print(f"  {str(sorted_project[i])}")
+
+
+def filter_project(project_list):
+    try:
+        user_date = input("Show projects that start after date (dd/mm/yyyy): ")  # user_date = "20/7/2022"
+        earliest_date = datetime.datetime.strptime(user_date, "%d/%m/%Y").date()
+
+        sorted_project = sorted(project_list, key=lambda project: project.start_date)
+
+        get_projects_after_date(earliest_date, sorted_project)
+    except ValueError:
+        print("Incorrect date format. Date must be written as dd/mm/yyyy")
+
+
+def get_projects_after_date(earliest_date, sorted_project):
+    for i in range(len(sorted_project)):
+        if sorted_project[i].start_date >= earliest_date:
+            print(sorted_project[i])
 
 
 def add_project(project_list):
     print("Let's add a new project")
     project_name = input("Name: ")
-    project_date = input("Start date (dd/mm/yy): ")
-    project_priority = input("Priority: ")
-    project_cost = input("Cost estimate: $")
-    project_completion = input("Percent complete: ")
+    project_date = set_project_date()
+    if project_date is not None:
+        project_priority = set_project_priority()
+        if project_priority is not None:
+            project_cost = set_project_cost()
+            if project_cost is not None:
+                project_completion = set_project_completion()
+                if project_completion is not None:
+                    project_entry = Project(project_name, project_date, project_priority, project_cost,
+                                            project_completion)
+                    project_list.append(project_entry)
 
-    project_entry = Project(project_name, project_date, project_priority, project_cost, project_completion)
-    project_list.append(project_entry)
+
+def set_project_completion():
+    try:
+        project_completion = int(input("Percent complete: "))
+        return project_completion
+    except ValueError:
+        print("Completion must be integer")
+        return None
+
+
+def set_project_cost():
+    try:
+        project_cost = float(input("Cost estimate: $"))
+        return project_cost
+    except ValueError:
+        print("Cost must be float or integer")
+        return None
+
+
+def set_project_priority():
+    try:
+        project_priority = int(input("Priority: "))
+        return project_priority
+    except ValueError:
+        print("Priority must be an integer")
+        return None
+
+
+def set_project_date():
+    try:
+        project_date = input("Start date (dd/mm/yy): ")
+        date_check(project_date)
+        return project_date
+    except ValueError:
+        print("Incorrect date format. Date must be written as dd/mm/yyyy")
+        return None
+
+
+def date_check(input_date):
+    date_entry = datetime.datetime.strptime(input_date, "%d/%m/%Y").date()
+    return date_entry
 
 
 def update_project(project_list):
@@ -126,26 +190,8 @@ def update_project(project_list):
     user_choice = int(input("Project choice: "))
 
     print(project_list[user_choice])
-    user_completion = input("New percentage: ")
-    try:
-        user_completion = int(user_completion)
-    except ValueError:
-        user_completion = -1
-    user_priority = input("New priority: ")
-    try:
-        user_priority = int(user_priority)
-    except ValueError:
-        user_priority = -1
-
-    if 0 <= user_completion <= 100:
-        project_list[user_choice].completion = user_completion
-    else:
-        pass
-
-    if 0 <= user_priority:
-        project_list[user_choice].priority = user_priority
-    else:
-        pass
+    project_list[user_choice].set_completion()
+    project_list[user_choice].set_priority()
 
 
 main()
