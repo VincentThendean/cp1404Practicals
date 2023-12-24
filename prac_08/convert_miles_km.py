@@ -3,6 +3,8 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.core.window import Window
 
+CONVERSION_VALUE = 1.60934
+
 
 class ConvertMilesKm(App):
     message = StringProperty()
@@ -15,12 +17,20 @@ class ConvertMilesKm(App):
         return self.root
 
     def handle_convert(self, value):
-        result = float(value) * 1.60934
-        self.message = str(result)
+        try:
+            result = float(value) * CONVERSION_VALUE
+            self.message = str(result)
+        except ValueError:
+            self.message = '0'
 
-    def handle_increments(self, value):
-        result = float(self.input) + value
-        self.input = str(result)
+    def handle_increments(self, saved_number, value):
+        try:
+            result = float(saved_number) + value
+            self.input = str(result)
+        except ValueError:
+            self.input = '0'
+            result = float(0) + value
+            self.input = str(result)
 
 
 ConvertMilesKm().run()
