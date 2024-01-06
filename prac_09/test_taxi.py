@@ -1,4 +1,3 @@
-from car import Car
 from taxi import Taxi
 
 
