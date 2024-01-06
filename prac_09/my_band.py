@@ -16,11 +16,14 @@ def main():
     band.add(pat)
     kevin = Musician("Kevin Figueiredo")
     band.add(kevin)
+    #
+    # print("band (str)")
+    # print(band)
+    # print("band.play()")
+    # print(band.play())
 
-    print("band (str)")
-    print(band)
-    print("band.play()")
-    print(band.play())
-
+    print(nuno)
+    g1 = Guitar("Washburn N4", 1990, 2499.95)
+    print(g1)
 
 main()
