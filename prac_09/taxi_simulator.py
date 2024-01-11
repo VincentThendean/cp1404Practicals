@@ -17,7 +17,6 @@ def main():
         if menu_choice == "c":
             get_taxi_list(taxis)
             current_taxi = set_current_taxi(taxis)
-            get_current_bill(current_bill)
             print(current_taxi)
         elif menu_choice == "d":
             if current_taxi is None:
@@ -33,6 +32,10 @@ def main():
         menu_choice = input(">>> ")
         menu_choice = menu_choice.lower()
 
+    print(f"Total trip cost: ${current_bill:.2f}")
+    print("Taxis are now:")
+    get_taxi_list(taxis)
+
 
 def add_current_bill(current_bill, current_taxi, taxis):
     current_bill += taxis[current_taxi].get_fare()
@@ -43,7 +46,7 @@ def add_current_bill(current_bill, current_taxi, taxis):
 def drive_taxi(current_taxi, taxis):
     drive_distance = int(input("Drive how far? "))
     taxis[current_taxi].drive(drive_distance)
-    print(f"Your trip cost you {taxis[current_taxi].get_fare():.2f}")
+    print(f"Your trip cost you ${taxis[current_taxi].get_fare():.2f}")
 
 
 def get_current_bill(current_bill):
