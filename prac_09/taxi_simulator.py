@@ -17,7 +17,7 @@ def main():
         if menu_choice == "c":
             get_taxi_list(taxis)
             current_taxi = set_current_taxi(taxis)
-            print(current_taxi)
+            # print(current_taxi)
         elif menu_choice == "d":
             if current_taxi is None:
                 print("You need to choose a taxi before you can drive")
@@ -44,9 +44,12 @@ def add_current_bill(current_bill, current_taxi, taxis):
 
 
 def drive_taxi(current_taxi, taxis):
-    drive_distance = int(input("Drive how far? "))
-    taxis[current_taxi].drive(drive_distance)
-    print(f"Your trip cost you ${taxis[current_taxi].get_fare():.2f}")
+    try:
+        drive_distance = int(set_int(input("Drive how far? ")))
+        taxis[current_taxi].drive(int(drive_distance))
+        print(f"Your trip cost you ${taxis[current_taxi].get_fare():.2f}")
+    except TypeError:
+        return
 
 
 def get_current_bill(current_bill):
@@ -55,13 +58,26 @@ def get_current_bill(current_bill):
 
 def set_current_taxi(taxis):
     try:
-        current_taxi = int(input("Choose taxi: "))
+        current_taxi = int(set_int(input("Choose taxi: ")))
+        # current_taxi = -3
+        taxis[current_taxi] = taxis[current_taxi]
         return current_taxi
-    except ValueError:
-        print("Not a number")
     except IndexError:
         print("Invalid number")
-    except:
+    except TypeError:
+        pass
+
+
+def set_int(number):
+    try:
+        number = int(number)
+        if number < 0:
+            print("Number cannot be negative")
+        else:
+            return number
+    except ValueError:
+        print("Not a number")
+    except TypeError:
         print("Error")
 
 
