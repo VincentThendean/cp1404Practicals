@@ -22,8 +22,9 @@ def main():
             if current_taxi is None:
                 print("You need to choose a taxi before you can drive")
             else:
-                drive_taxi(current_taxi, taxis)
-                current_bill = add_current_bill(current_bill, current_taxi, taxis)
+                trip_cost = drive_taxi(current_taxi)
+                current_bill += trip_cost
+                get_current_bill(current_bill)
 
         else:
             print("Invalid option")
@@ -37,19 +38,16 @@ def main():
     get_taxi_list(taxis)
 
 
-def add_current_bill(current_bill, current_taxi, taxis):
-    current_bill += taxis[current_taxi].get_fare()
-    get_current_bill(current_bill)
-    return current_bill
-
-
-def drive_taxi(current_taxi, taxis):
-    try:
-        drive_distance = int(set_int(input("Drive how far? ")))
-        taxis[current_taxi].drive(int(drive_distance))
-        print(f"Your trip cost you ${taxis[current_taxi].get_fare():.2f}")
-    except TypeError:
-        return
+def drive_taxi(current_taxi):
+    current_taxi.start_fare()
+    # print(current_taxi)
+    drive_distance = set_int(input("Drive how far? "))
+    if drive_distance is not None:
+        current_taxi.drive(int(drive_distance))
+        print(f"Your trip cost you ${current_taxi.get_fare():.2f}")
+        return current_taxi.get_fare()
+    else:
+        return 0
 
 
 def get_current_bill(current_bill):
@@ -58,12 +56,10 @@ def get_current_bill(current_bill):
 
 def set_current_taxi(taxis):
     try:
-        current_taxi = int(set_int(input("Choose taxi: ")))
-        # current_taxi = -3
-        taxis[current_taxi] = taxis[current_taxi]
-        return current_taxi
+        taxi_choice = taxis[int(set_int(input("Choose taxi: ")))]
+        return taxi_choice
     except IndexError:
-        print("Invalid number")
+        print("Invalid taxi choice")
     except TypeError:
         pass
 
