@@ -4,7 +4,7 @@ Testing demo using assert and doctest
 """
 
 import doctest
-from prac_06.car import Car
+from cp1404Practicals.prac_06.car import Car
 
 
 def repeat_string(s, n):
@@ -22,7 +22,7 @@ def is_long_word(word, length=5):
     >>> is_long_word("Python", 6)
     True
     """
-    return len(word) > length
+    return len(word) >= length
 
 
 def run_tests():
@@ -30,7 +30,7 @@ def run_tests():
     # assert test with no message - used to see if the function works properly
     assert repeat_string("Python", 1) == "Python"
     # the test below should fail
-    assert repeat_string("hi", 2) == "hi hi"
+    assert repeat_string("hi", 2) == "hihi"
 
     # TODO: 1. fix the repeat_string function above so that it passes the failing test
     # Hint: "-".join(["yo", "yo"] -> "yo-yo"
@@ -38,21 +38,37 @@ def run_tests():
     # assert test with custom message,
     # used to see if Car's init method sets the odometer correctly
     # this should pass (no output)
-    test_car = Car()
+    test_car = Car("Prius")
     assert test_car._odometer == 0, "Car does not set odometer correctly"
 
     # TODO: 2. write assert statements to show if Car sets the fuel correctly
     # Note that Car's __init__ function sets the fuel in one of two ways:
     # using the value passed in or the default
     # You should test both of these
-    test_car = Car(fuel=10)
+    test_car = Car("Corolla", fuel=10)
+    assert test_car.fuel != 0, "Default fuel passed"
+
+
+def sentence_formatter(phrase):
+    """
+    >>> sentence_formatter("hello")
+    'Hello.'
+    >>> sentence_formatter("It is an ex parrot.")
+    'It is an ex parrot.'
+    >>> sentence_formatter("One more you decide")
+    'One more you decide.'
+    """
+    phrase = phrase.replace(phrase[0], phrase[0].upper())
+    if phrase[-1] is not ".":
+        phrase = f"{phrase}."
+    return phrase
 
 
 run_tests()
 
 # TODO: 3. Uncomment the following line and run the doctests
 # (PyCharm may see your >>> doctest comments and run doctests anyway.)
-# doctest.testmod()
+doctest.testmod()
 
 # TODO: 4. Fix the failing is_long_word function
 # (don't change the tests, change the function!)
